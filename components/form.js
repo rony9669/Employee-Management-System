@@ -15,6 +15,8 @@ const form = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    toast.success("Successfully Added!");
+
     console.log(formData);
   };
 
