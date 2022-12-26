@@ -2,6 +2,7 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { BiUserPlus } from "react-icons/bi";
 import Form from "../components/form";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Home() {
   return (
@@ -36,6 +37,7 @@ export default function Home() {
             {/* table */}
           </div>
         </div>
+        <Toaster />
       </main>
     </>
   );
