@@ -3,8 +3,15 @@ import styles from "../styles/Home.module.css";
 import { BiUserPlus } from "react-icons/bi";
 import Form from "../components/form";
 import toast, { Toaster } from "react-hot-toast";
+import { useState } from "react";
+import { Table } from "../components/table";
 
 export default function Home() {
+  const [visible, setVisible] = useState(false);
+  const handler = () => {
+    setVisible(!visible);
+  };
+
   return (
     <>
       <Head>
@@ -21,7 +28,10 @@ export default function Home() {
           <div className=" w-10/12 mx-auto">
             <div className="container mx-auto flex justify-between py-5">
               <div className="left flex gap-3">
-                <button className="flex bg-indigo-500 text-white px-4 py-1 border rounded-md hover:bg-gray-50 hover:border-indigo-500 hover:text-gray-800  ">
+                <button
+                  onClick={handler}
+                  className="flex bg-indigo-500 text-white px-4 py-1 border rounded-md hover:bg-gray-50 hover:border-indigo-500 hover:text-gray-800  "
+                >
                   Add Employee
                   <span className="px-1">
                     <BiUserPlus size={23} />
@@ -30,12 +40,11 @@ export default function Home() {
               </div>
             </div>
             {/* collapsable form */}
-            <div className="container mx-auto py-3">
-              <Form></Form>
-            </div>
 
-            {/* table */}
+            {visible ? <Form></Form> : <></>}
           </div>
+          {/* table */}
+          <Table className="w-9/12" />
         </div>
         <Toaster />
       </main>

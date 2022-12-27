@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "name": "Dean Lych",
+    "avatar": "http://randomuser.me/api/portraits/men/1.jpg",
+    "email": "dean@example.com",
+    "salary": "250000",
+    "date": "2022-06-08",
+    "status": "active"
+  },
+  {
+    "id": 2,
+    "name": "Dean Lych",
+    "avatar": "http://randomuser.me/api/portraits/men/1.jpg",
+    "email": "dean@example.com",
+    "salary": "250000",
+    "date": "2022-06-08",
+    "status": "active"
+  },
+  {
+    "id": 3,
+    "name": "Naricha Akter",
+    "avatar": "http://randomuser.me/api/portraits/men/1.jpg",
+    "email": "dean@example.com",
+    "salary": "250000",
+    "date": "2022-06-08",
+    "status": "inactive"
+  },
+  {
+    "id": 4,
+    "name": "Rony Chowdhury",
+    "avatar": "http://randomuser.me/api/portraits/men/1.jpg",
+    "email": "dean@example.com",
+    "salary": "250000",
+    "date": "2022-06-08",
+    "status": "inactive"
+  }
+]
