@@ -1,6 +1,8 @@
 //Controller
 import Users from "../model/user";
 
+//http://localhost:3000/api/users
+
 //read/get
 export async function getUsers(req, res) {
   try {
@@ -9,6 +11,21 @@ export async function getUsers(req, res) {
     res.status(200).json(users);
   } catch (error) {
     res.status(404).json({ error: "Error while fetching Data" });
+  }
+}
+
+//read/get single user
+//http://localhost:3000/api/users/userId
+export async function getUser(req, res) {
+  try {
+    const { userId } = req.query;
+    if (userId) {
+      const user = await Users.findById(userId);
+      res.status(200).json(user);
+    }
+    res.status(404).json({ error: "User Not Found" });
+  } catch (error) {
+    res.status(404).json({ error: "Cannot get the user" });
   }
 }
 
@@ -40,9 +57,37 @@ export async function putUsers(req, res) {
     res.status(404).json({ error: "Error while updating the Data" });
   }
 }
+//update single user
+export async function putUser(req, res) {
+  try {
+    const { userId } = req.query;
+    const formData = req.body;
+    if (userId && formData) {
+      const user = await Users.findByIdAndUpdate(userId, formData);
+      res.status(200).json(user);
+    }
+    res.status(404).json({ error: "Form Data Not Updated" });
+  } catch (error) {
+    res.status(404).json({ error: "Error while updating the Data" });
+  }
+}
 
 //delete
 export async function deleteUsers(req, res) {
+  try {
+    const { userId } = req.query;
+    if (userId) {
+      const user = await Users.findByIdAndDelete(userId);
+      res.status(200).json({ deleted: userId });
+    }
+    return res.status(404).json({ error: "User Not Deleted " });
+  } catch (error) {
+    res.status(404).json({ error: "Error while deleting Data" });
+  }
+}
+
+//delete single user
+export async function deleteUser(req, res) {
   try {
     const { userId } = req.query;
     if (userId) {

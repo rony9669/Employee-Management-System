@@ -1,7 +1,7 @@
 import AddUserForm from "./addUserForm";
 import UpdateUserForm from "./updateUserForm";
 
-const form = () => {
+const Form = () => {
   const flag = false;
   return (
     <div className="container mx-auto py-3">
@@ -10,4 +10,4 @@ const form = () => {
   );
 };
 
-export default form;
+export default Form;
