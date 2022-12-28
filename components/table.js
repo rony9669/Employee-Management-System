@@ -1,12 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BiEdit, BiTrashAlt } from "react-icons/bi";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getUsers } from "../lib/helper";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  toggleChangeAction,
+  updateAction,
+  deleteAction,
+} from "../redux/reducer";
+import axios from "axios";
 
 export const Table = () => {
-  const { isLoading, isError, data, error } = useQuery("users", getUsers);
+  // const [data, setData] = useState([]);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const result = await axios("http://localhost:3000/api/users");
+
+  //     setData([...data, result.data]);
+  //   };
+
+  //   fetchData();
+  // }, []);
+
+  // const { isLoading, isFetching, isError, data, error } = useQuery(
+  //   "users",
+  //   getUsers
+  // );
+
+  const {
+    isFetching,
+    isLoading,
+    error,
+    data = [],
+  } = useQuery({
+    queryKey: ["repoData"],
+    queryFn: () =>
+      fetch("http://localhost:3000/api/users").then((res) => res.json()),
+  });
+
+  if (isFetching) return <div>Employee is Loading...</div>;
   if (isLoading) return <div>Employee is Loading...</div>;
-  if (isError) return <div>Error:{error}</div>;
+  if (error) return <div>Error:{error}</div>;
 
   return (
     <table className="min-w-full table-auto">
@@ -42,7 +77,22 @@ export const Table = () => {
   );
 };
 
-function Tr({ id, name, avatar, email, salary, date, status }) {
+function Tr({ _id, name, avatar, email, salary, date, status }) {
+  const visible = useSelector((state) => state.app.client.toggleForm);
+  const dispatch = useDispatch();
+
+  const onUpdate = () => {
+    dispatch(toggleChangeAction(_id));
+    if (visible) {
+      dispatch(updateAction(_id));
+    }
+  };
+  const onDelete = () => {
+    dispatch(toggleChangeAction(_id));
+    if (visible) {
+      dispatch(deleteAction(_id));
+    }
+  };
   return (
     <tr className="bg-gray-50 text-center">
       <td className="px-16 py-2 flex flex-row items-center">
@@ -75,10 +125,10 @@ function Tr({ id, name, avatar, email, salary, date, status }) {
       </td>
       <td className="px-16 py-2 flex justify-around gap-5">
         <button className="cursor">
-          <BiEdit size={25} color={"rgb(34,197,94"} />
+          <BiEdit onClick={onUpdate} size={25} color={"rgb(34,197,94"} />
         </button>
         <button className="cursor">
-          <BiTrashAlt size={25} color={"rgb(244,63,94"} />
+          <BiTrashAlt onClick={onDelete} size={25} color={"rgb(244,63,94"} />
         </button>
       </td>
     </tr>

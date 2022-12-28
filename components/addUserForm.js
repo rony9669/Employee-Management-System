@@ -2,23 +2,40 @@
 import { useReducer, useState, React } from "react";
 import { BiPlus } from "react-icons/bi";
 import toast, { Toaster } from "react-hot-toast";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { addUser, getUser } from "../lib/helper";
 
-const formReducer = (state, event) => {
-  return {
-    ...state,
-    [event.target.name]: event.target.value,
-  };
-};
+const AddUserForm = ({ formData, setFormData }) => {
+  const queryClient = useQueryClient();
+  const addMutation = useMutation(addUser, {
+    onSuccess: () => {
+      queryClient.prefetchQuery("users", getUser);
+    },
+  });
 
-const AddUserForm = () => {
-  const [formData, setFormData] = useReducer(formReducer, {});
   const handleSubmit = (event) => {
     event.preventDefault();
 
     toast.success("Successfully Added!");
 
-    console.log(formData);
+    let { firstname, lastname, email, salary, date, status } = formData;
+
+    const model = {
+      name: `${firstname} ${lastname}`,
+      avatar: `http://randomuser.me/api/portraits/men/${Math.floor(
+        Math.random() * 10
+      )}.jpg`,
+      email,
+      salary,
+      date,
+      status,
+    };
+    addMutation.mutate(model);
   };
+
+  if (addMutation.isLoading) return <div>Loading...</div>;
+  if (addMutation.isError) return toast.error(`${addMutation.error.message}`);
+  if (addMutation.isSuccess) return toast.success("Successfully Added!");
 
   return (
     <div>

@@ -2,22 +2,35 @@
 import { useReducer, useState, React } from "react";
 import { BiBrush } from "react-icons/bi";
 import toast from "react-hot-toast";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getUser, getUsers, updateUser } from "../lib/helper";
 
-const formReducer = (state, event) => {
-  return {
-    ...state,
-    [event.target.name]: event.target.value,
-  };
-};
+const UpdateUserForm = ({ formId, formData, setFormData }) => {
+  const queryClient = useQueryClient();
+  const { isLoading, isError, data, error } = useQuery(["users", formId], () =>
+    getUser(formId)
+  );
+  const UpdateMutation = useMutation((newData) => updateUser(formId, newData), {
+    onSuccess: async (data) => {
+      // queryClient.setQueriesData("users",(old)=>[data])
+      queryClient.prefetchQuery("users", getUsers);
+    },
+  });
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return toast.error(`${addMutation.error.message}`);
+  const { name, avatar, salary, date, email, status } = data;
+  const [firstname, lastname] = name ? name.split(" ") : formData;
 
-const UpdateUserForm = () => {
-  const [formData, setFormData] = useReducer(formReducer, {});
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     toast.success("Successfully Added!");
 
-    console.log(formData);
+    let userName = `${formData.firstname ?? firstname} ${
+      formData.lastname ?? lastname
+    }`;
+    let updated = Object.assign({}, data, formData, { name: userName });
+    await UpdateMutation.mutate(updated);
   };
 
   return (
@@ -31,6 +44,7 @@ const UpdateUserForm = () => {
             type="text"
             onChange={setFormData}
             name="firstname"
+            defaultValue={firstname}
             className="border w-full px-5 py-3 focus:outline-none rounded-md "
             placeholder="First Name"
             required
@@ -41,6 +55,7 @@ const UpdateUserForm = () => {
             type="text"
             onChange={setFormData}
             name="lastname"
+            defaultValue={lastname}
             className="border w-full px-5 py-3 focus:outline-none rounded-md "
             placeholder="Last Name"
             required
@@ -51,6 +66,7 @@ const UpdateUserForm = () => {
             type="text"
             onChange={setFormData}
             name="email"
+            defaultValue={email}
             className="border w-full px-5 py-3 focus:outline-none rounded-md "
             placeholder="Email"
             required
@@ -61,6 +77,7 @@ const UpdateUserForm = () => {
             type="text"
             onChange={setFormData}
             name="salary"
+            defaultValue={salary}
             className="border w-full px-5 py-3 focus:outline-none rounded-md "
             placeholder="Salary"
             required
@@ -71,6 +88,7 @@ const UpdateUserForm = () => {
             type="date"
             onChange={setFormData}
             name="date"
+            defaultValue={date}
             className="border px-5 py-3 focus:outline-none rounded-md "
             placeholder="Salary"
             required
@@ -81,6 +99,7 @@ const UpdateUserForm = () => {
             <input
               type="radio"
               onChange={setFormData}
+              defaultChecked={status == "Active"}
               value="Active"
               id="radioDefault1"
               name="status"
@@ -99,6 +118,7 @@ const UpdateUserForm = () => {
               type="radio"
               onChange={setFormData}
               value="Inactive"
+              defaultChecked={status != "Active"}
               id="radioDefault25"
               name="status"
               className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-green-500 checked:border-gray-500 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer  "

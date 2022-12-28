@@ -1,15 +1,33 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import { BiUserPlus } from "react-icons/bi";
+import { BiCheck, BiUserPlus, BiX } from "react-icons/bi";
 import Form from "../components/form";
 import toast, { Toaster } from "react-hot-toast";
 import { useState } from "react";
 import { Table } from "../components/table";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleChangeAction, deleteAction } from "../redux/reducer";
+import { deleteUser, getUsers } from "../lib/helper";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Home() {
-  const [visible, setVisible] = useState(false);
+  const visible = useSelector((state) => state.app.client.toggleForm);
+  const deleteId = useSelector((state) => state.app.client.deleteId);
+  const queryClient = useQueryClient();
+  const dispatch = useDispatch();
   const handler = () => {
-    setVisible(!visible);
+    dispatch(toggleChangeAction());
+  };
+
+  const deleteHandler = async () => {
+    if (deleteId) {
+      await deleteUser(deleteId);
+      await queryClient.prefetchQuery("users", getUsers);
+      await dispatch(deleteAction(null));
+    }
+  };
+  const cancelHandler = async () => {
+    await dispatch(deleteAction(null));
   };
 
   return (
@@ -24,7 +42,7 @@ export default function Home() {
         <h1 className="text-xl md:text-2xl text-center font-bold py-3">
           Employee Management
         </h1>
-        <div className="container    border-b">
+        <div className="container border-b">
           <div className=" w-10/12 mx-auto">
             <div className="container mx-auto flex justify-between py-5">
               <div className="left flex gap-3">
@@ -38,6 +56,11 @@ export default function Home() {
                   </span>
                 </button>
               </div>
+              {deleteId ? (
+                DeleteComponents({ deleteHandler, cancelHandler })
+              ) : (
+                <></>
+              )}
             </div>
             {/* collapsable form */}
 
@@ -49,5 +72,31 @@ export default function Home() {
         <Toaster />
       </main>
     </>
+  );
+}
+
+function DeleteComponents({ deleteHandler, cancelHandler }) {
+  return (
+    <div className="flex gap-5">
+      <button>Are you sure you want to delete?</button>
+      <button
+        onClick={deleteHandler}
+        className="flex bg-red-500 text-white px-4 py-2 border rounded-md hover:bg-rose-500 hover:border-red-500 hover:text-gray-50"
+      >
+        Yes
+        <span className="px-1">
+          <BiX color="rgb(255 255 255" size={25} />
+        </span>
+      </button>
+      <button
+        onClick={cancelHandler}
+        className="flex bg-green-500 text-white px-4 py-2 border rounded-md hover:bg-green-500 hover:border-green-500 hover:text-gray-50"
+      >
+        No
+        <span className="px-1">
+          <BiCheck color="rgb(255 255 255" size={25} />
+        </span>
+      </button>
+    </div>
   );
 }
