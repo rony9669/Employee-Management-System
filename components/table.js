@@ -11,37 +11,37 @@ import {
 import axios from "axios";
 
 export const Table = () => {
-  // const [data, setData] = useState([]);
+  const [data, setData] = useState([]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const result = await axios("http://localhost:3000/api/users");
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios("http://localhost:3000/api/users");
 
-  //     setData([...data, result.data]);
-  //   };
+      setData(result.data);
+    };
 
-  //   fetchData();
-  // }, []);
+    fetchData();
+  }, [data]);
 
   // const { isLoading, isFetching, isError, data, error } = useQuery(
   //   "users",
   //   getUsers
   // );
 
-  const {
-    isFetching,
-    isLoading,
-    error,
-    data = [],
-  } = useQuery({
-    queryKey: ["repoData"],
-    queryFn: () =>
-      fetch("http://localhost:3000/api/users").then((res) => res.json()),
-  });
+  // const {
+  //   isFetching,
+  //   isLoading,
+  //   error,
+  //   data = [],
+  // } = useQuery({
+  //   queryKey: ["repoData"],
+  //   queryFn: () =>
+  //     fetch("http://localhost:3000/api/users").then((res) => res.json()),
+  // });
 
-  if (isFetching) return <div>Employee is Loading...</div>;
-  if (isLoading) return <div>Employee is Loading...</div>;
-  if (error) return <div>Error:{error}</div>;
+  // if (isFetching) return <div>Employee is Loading...</div>;
+  // if (isLoading) return <div>Employee is Loading...</div>;
+  // if (error) return <div>Error:{error}</div>;
 
   return (
     <table className="min-w-full table-auto">
@@ -69,9 +69,7 @@ export const Table = () => {
       </thead>
       {/* body */}
       <tbody className="bg-gray-200">
-        {data.map((obj, i) => (
-          <Tr {...obj} key={i} />
-        ))}
+        {Array.isArray(data) && data.map((obj, i) => <Tr {...obj} key={i} />)}
       </tbody>
     </table>
   );

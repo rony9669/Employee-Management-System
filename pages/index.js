@@ -62,12 +62,13 @@ export default function Home() {
                 <></>
               )}
             </div>
-            {/* collapsable form */}
 
+            {/* collapsable form */}
             {visible ? <Form></Form> : <></>}
           </div>
+
           {/* table */}
-          <Table className="w-9/12" />
+          <Table />
         </div>
         <Toaster />
       </main>
