@@ -1,5 +1,10 @@
 //Controller
 import Users from "../model/user";
+var express = require("express");
+var cors = require("cors");
+var app = express();
+
+app.use(cors());
 
 //http://localhost:3000/api/users
 
