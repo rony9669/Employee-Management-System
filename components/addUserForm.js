@@ -35,7 +35,7 @@ const AddUserForm = ({ formData, setFormData }) => {
 
   if (addMutation.isLoading) return <div>Loading...</div>;
   if (addMutation.isError) return toast.error(`${addMutation.error.message}`);
-  if (addMutation.isSuccess) return toast.success("Successfully Added!");
+  // if (addMutation.isSuccess) return toast.success("Successfully Added!");
 
   return (
     <div>

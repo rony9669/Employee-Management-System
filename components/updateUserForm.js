@@ -24,7 +24,7 @@ const UpdateUserForm = ({ formId, formData, setFormData }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    toast.success("Successfully Added!");
+    toast.success("Successfully updated!");
 
     let userName = `${formData.firstname ?? firstname} ${
       formData.lastname ?? lastname
