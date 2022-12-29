@@ -15,7 +15,7 @@ export const Table = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios("http://localhost:3000/api/users");
+      const result = await axios("users", getUsers);
 
       setData(result.data);
     };
