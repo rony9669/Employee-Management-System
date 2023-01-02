@@ -18,6 +18,7 @@ const UpdateUserForm = ({ formId, formData, setFormData }) => {
   });
   if (isLoading) return <div>Loading...</div>;
   if (isError) return toast.error(`${addMutation.error.message}`);
+  if (addMutation.isSuccess) return toast.success("Update Successfully!");
   const { name, avatar, salary, date, email, status } = data;
   const [firstname, lastname] = name ? name.split(" ") : formData;
 
