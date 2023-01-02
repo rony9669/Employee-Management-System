@@ -16,7 +16,7 @@ const AddUserForm = ({ formData, setFormData }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // toast.success("Successfully Added!");
+    toast.success("Successfully Added!");
 
     let { firstname, lastname, email, salary, date, status } = formData;
 
@@ -33,7 +33,7 @@ const AddUserForm = ({ formData, setFormData }) => {
     addMutation.mutate(model);
   };
 
-  if (addMutation.isSuccess) return toast.success("Successfully Added!");
+  // if (addMutation.isSuccess) return toast.success("Successfully Added!");
   if (addMutation.isLoading) return <div>Loading...</div>;
   if (addMutation.isError) return toast.error(`${addMutation.error.message}`);
 
