@@ -1,7 +1,7 @@
 //Controller
 import Users from "../model/user";
 
-//http://localhost:3000/api/users
+//https://friendly-twilight-8c9958.netlify.app/api/users
 
 //read/get
 export async function getUsers(req, res) {
@@ -15,7 +15,7 @@ export async function getUsers(req, res) {
 }
 
 //read/get single user
-//http://localhost:3000/api/users/userId
+//https://friendly-twilight-8c9958.netlify.app/api/users/userId
 export async function getUser(req, res) {
   try {
     const { userId } = req.query;
