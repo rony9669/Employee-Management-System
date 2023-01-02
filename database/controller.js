@@ -1,7 +1,7 @@
 //Controller
 import Users from "../model/user";
 
-//https://friendly-twilight-8c9958.netlify.app/api/users
+//https://employee-management-system-8iea.vercel.app/api/users
 
 //read/get
 export async function getUsers(req, res) {
@@ -15,7 +15,7 @@ export async function getUsers(req, res) {
 }
 
 //read/get single user
-//https://friendly-twilight-8c9958.netlify.app/api/users/userId
+//https://employee-management-system-8iea.vercel.app/api/users/userId
 export async function getUser(req, res) {
   try {
     const { userId } = req.query;

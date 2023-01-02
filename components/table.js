@@ -16,7 +16,7 @@ export const Table = () => {
   useEffect(() => {
     const fetchData = async () => {
       const result = await axios(
-        "https://friendly-twilight-8c9958.netlify.app/api/users"
+        "https://employee-management-system-8iea.vercel.app/api/users"
       );
 
       setData(result.data);
@@ -38,7 +38,7 @@ export const Table = () => {
   // } = useQuery({
   //   queryKey: ["repoData"],
   //   queryFn: () =>
-  //     fetch("https://friendly-twilight-8c9958.netlify.app/api/users").then((res) => res.json()),
+  //     fetch("https://employee-management-system-8iea.vercel.app/api/users").then((res) => res.json()),
   // });
 
   // if (isFetching) return <div>Employee is Loading...</div>;
