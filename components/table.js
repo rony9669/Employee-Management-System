@@ -15,9 +15,7 @@ export const Table = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios(
-        "https://employee-management-system-8iea.vercel.app/api/users"
-      );
+      const result = await axios("http://localhost:3000/api/users");
 
       setData(result.data);
     };
@@ -38,7 +36,7 @@ export const Table = () => {
   // } = useQuery({
   //   queryKey: ["repoData"],
   //   queryFn: () =>
-  //     fetch("https://employee-management-system-8iea.vercel.app/api/users").then((res) => res.json()),
+  //     fetch("http://localhost:3000/api/users").then((res) => res.json()),
   // });
 
   // if (isFetching) return <div>Employee is Loading...</div>;
