@@ -7,8 +7,9 @@ import { getUser, getUsers, updateUser } from "../lib/helper";
 
 const UpdateUserForm = ({ formId, formData, setFormData }) => {
   const queryClient = useQueryClient();
-  const { isLoading, isError, data, error } = useQuery(["users", formId], () =>
-    getUser(formId)
+  const { isLoading, isSuccess, isError, data, error } = useQuery(
+    ["users", formId],
+    () => getUser(formId)
   );
   const UpdateMutation = useMutation((newData) => updateUser(formId, newData), {
     onSuccess: async (data) => {
@@ -16,9 +17,11 @@ const UpdateUserForm = ({ formId, formData, setFormData }) => {
       queryClient.prefetchQuery("users", getUsers);
     },
   });
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return toast.error(`${addMutation.error.message}`);
-  if (addMutation.isSuccess) return toast.success("Update Successfully!");
+  if (addMutation.isLoading) return <div>Loading...</div>;
+  if (addMutation.isError) return toast.error(`${addMutation.error.message}`);
+  // if (isLoading) return <div>Loading...</div>;
+  // if (isError) return toast.error(`${addMutation.error.message}`);
+  // if (addMutation.isSuccess) return toast.success("Update Successfully!");
   const { name, avatar, salary, date, email, status } = data;
   const [firstname, lastname] = name ? name.split(" ") : formData;
 
