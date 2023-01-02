@@ -25,6 +25,7 @@ export default function Home() {
       await queryClient.prefetchQuery("users", getUsers);
       await dispatch(deleteAction(null));
     }
+    toast.success("Deleted Successfully!");
   };
   const cancelHandler = async () => {
     await dispatch(deleteAction(null));
