@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { BiEdit, BiTrashAlt } from "react-icons/bi";
 import { useQuery } from "@tanstack/react-query";
+import toast, { Toaster } from "react-hot-toast";
+
 import { getUsers } from "../lib/helper";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -91,6 +93,7 @@ function Tr({ _id, name, avatar, email, salary, date, status }) {
     dispatch(toggleChangeAction(_id));
     if (visible) {
       dispatch(deleteAction(_id));
+      toast.success("Deleted Successfully!");
     }
   };
   return (
