@@ -93,8 +93,8 @@ function Tr({ _id, name, avatar, email, salary, date, status }) {
     dispatch(toggleChangeAction(_id));
     if (visible) {
       dispatch(deleteAction(_id));
-      toast.success("Deleted Successfully!");
     }
+    toast.success("Deleted Successfully!");
   };
   return (
     <tr className="bg-gray-50 text-center">
